@@ -1,0 +1,472 @@
+{
+  "contracts": [
+    {
+      "id": "GET /api/oauth/google/redirect_url",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/oauth/google/redirect_url",
+      "nextRoutePath": "oauth/google/redirect_url",
+      "expectedFilePath": "apps/web/src/app/api/oauth/google/redirect_url/route.ts",
+      "evidence": "app.get(\"/api/oauth/google/redirect_url\", async (c) => {"
+    },
+    {
+      "id": "POST /api/sessions",
+      "kind": "hono-route",
+      "method": "POST",
+      "sourcePath": "/api/sessions",
+      "nextRoutePath": "sessions",
+      "expectedFilePath": "apps/web/src/app/api/sessions/route.ts",
+      "evidence": "app.post(\"/api/sessions\", async (c) => {"
+    },
+    {
+      "id": "GET /api/users/me",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/users/me",
+      "nextRoutePath": "users/me",
+      "expectedFilePath": "apps/web/src/app/api/users/me/route.ts",
+      "evidence": "app.get(\"/api/users/me\", authMiddleware, async (c) => {"
+    },
+    {
+      "id": "GET /api/logout",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/logout",
+      "nextRoutePath": "logout",
+      "expectedFilePath": "apps/web/src/app/api/logout/route.ts",
+      "evidence": "app.get(\"/api/logout\", async (c) => {"
+    },
+    {
+      "id": "GET /api/medicos",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/medicos",
+      "nextRoutePath": "medicos",
+      "expectedFilePath": "apps/web/src/app/api/medicos/route.ts",
+      "evidence": "app.get(\"/api/medicos\", async (c) => {"
+    },
+    {
+      "id": "GET /api/medicos/:id",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/medicos/:id",
+      "nextRoutePath": "medicos/[id]",
+      "expectedFilePath": "apps/web/src/app/api/medicos/[id]/route.ts",
+      "evidence": "app.get(\"/api/medicos/:id\", async (c) => {"
+    },
+    {
+      "id": "POST /api/medicos",
+      "kind": "hono-route",
+      "method": "POST",
+      "sourcePath": "/api/medicos",
+      "nextRoutePath": "medicos",
+      "expectedFilePath": "apps/web/src/app/api/medicos/route.ts",
+      "evidence": "app.post(\"/api/medicos\", async (c) => {"
+    },
+    {
+      "id": "PUT /api/medicos/:id",
+      "kind": "hono-route",
+      "method": "PUT",
+      "sourcePath": "/api/medicos/:id",
+      "nextRoutePath": "medicos/[id]",
+      "expectedFilePath": "apps/web/src/app/api/medicos/[id]/route.ts",
+      "evidence": "app.put(\"/api/medicos/:id\", async (c) => {"
+    },
+    {
+      "id": "DELETE /api/medicos/:id",
+      "kind": "hono-route",
+      "method": "DELETE",
+      "sourcePath": "/api/medicos/:id",
+      "nextRoutePath": "medicos/[id]",
+      "expectedFilePath": "apps/web/src/app/api/medicos/[id]/route.ts",
+      "evidence": "app.delete(\"/api/medicos/:id\", async (c) => {"
+    },
+    {
+      "id": "GET /api/especialidades",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/especialidades",
+      "nextRoutePath": "especialidades",
+      "expectedFilePath": "apps/web/src/app/api/especialidades/route.ts",
+      "evidence": "app.get(\"/api/especialidades\", async (c) => {"
+    },
+    {
+      "id": "GET /api/cargos",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/cargos",
+      "nextRoutePath": "cargos",
+      "expectedFilePath": "apps/web/src/app/api/cargos/route.ts",
+      "evidence": "app.get(\"/api/cargos\", async (c) => {"
+    },
+    {
+      "id": "GET /api/cargos-funcoes",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/cargos-funcoes",
+      "nextRoutePath": "cargos-funcoes",
+      "expectedFilePath": "apps/web/src/app/api/cargos-funcoes/route.ts",
+      "evidence": "app.get(\"/api/cargos-funcoes\", async (c) => {"
+    },
+    {
+      "id": "GET /api/cargos-funcoes/:id",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/cargos-funcoes/:id",
+      "nextRoutePath": "cargos-funcoes/[id]",
+      "expectedFilePath": "apps/web/src/app/api/cargos-funcoes/[id]/route.ts",
+      "evidence": "app.get(\"/api/cargos-funcoes/:id\", async (c) => {"
+    },
+    {
+      "id": "POST /api/cargos-funcoes",
+      "kind": "hono-route",
+      "method": "POST",
+      "sourcePath": "/api/cargos-funcoes",
+      "nextRoutePath": "cargos-funcoes",
+      "expectedFilePath": "apps/web/src/app/api/cargos-funcoes/route.ts",
+      "evidence": "app.post(\"/api/cargos-funcoes\", async (c) => {"
+    },
+    {
+      "id": "PUT /api/cargos-funcoes/:id",
+      "kind": "hono-route",
+      "method": "PUT",
+      "sourcePath": "/api/cargos-funcoes/:id",
+      "nextRoutePath": "cargos-funcoes/[id]",
+      "expectedFilePath": "apps/web/src/app/api/cargos-funcoes/[id]/route.ts",
+      "evidence": "app.put(\"/api/cargos-funcoes/:id\", async (c) => {"
+    },
+    {
+      "id": "DELETE /api/cargos-funcoes/:id",
+      "kind": "hono-route",
+      "method": "DELETE",
+      "sourcePath": "/api/cargos-funcoes/:id",
+      "nextRoutePath": "cargos-funcoes/[id]",
+      "expectedFilePath": "apps/web/src/app/api/cargos-funcoes/[id]/route.ts",
+      "evidence": "app.delete(\"/api/cargos-funcoes/:id\", async (c) => {"
+    },
+    {
+      "id": "GET /api/funcionarios",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/funcionarios",
+      "nextRoutePath": "funcionarios",
+      "expectedFilePath": "apps/web/src/app/api/funcionarios/route.ts",
+      "evidence": "app.get(\"/api/funcionarios\", async (c) => {"
+    },
+    {
+      "id": "GET /api/funcionarios/:id",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/funcionarios/:id",
+      "nextRoutePath": "funcionarios/[id]",
+      "expectedFilePath": "apps/web/src/app/api/funcionarios/[id]/route.ts",
+      "evidence": "app.get(\"/api/funcionarios/:id\", async (c) => {"
+    },
+    {
+      "id": "POST /api/funcionarios",
+      "kind": "hono-route",
+      "method": "POST",
+      "sourcePath": "/api/funcionarios",
+      "nextRoutePath": "funcionarios",
+      "expectedFilePath": "apps/web/src/app/api/funcionarios/route.ts",
+      "evidence": "app.post(\"/api/funcionarios\", async (c) => {"
+    },
+    {
+      "id": "PUT /api/funcionarios/:id",
+      "kind": "hono-route",
+      "method": "PUT",
+      "sourcePath": "/api/funcionarios/:id",
+      "nextRoutePath": "funcionarios/[id]",
+      "expectedFilePath": "apps/web/src/app/api/funcionarios/[id]/route.ts",
+      "evidence": "app.put(\"/api/funcionarios/:id\", async (c) => {"
+    },
+    {
+      "id": "DELETE /api/funcionarios/:id",
+      "kind": "hono-route",
+      "method": "DELETE",
+      "sourcePath": "/api/funcionarios/:id",
+      "nextRoutePath": "funcionarios/[id]",
+      "expectedFilePath": "apps/web/src/app/api/funcionarios/[id]/route.ts",
+      "evidence": "app.delete(\"/api/funcionarios/:id\", async (c) => {"
+    },
+    {
+      "id": "GET /api/setores",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/setores",
+      "nextRoutePath": "setores",
+      "expectedFilePath": "apps/web/src/app/api/setores/route.ts",
+      "evidence": "app.get(\"/api/setores\", async (c) => {"
+    },
+    {
+      "id": "GET /api/escalas",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/escalas",
+      "nextRoutePath": "escalas",
+      "expectedFilePath": "apps/web/src/app/api/escalas/route.ts",
+      "evidence": "app.get(\"/api/escalas\", async (c) => {"
+    },
+    {
+      "id": "GET /api/escalas/:id",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/escalas/:id",
+      "nextRoutePath": "escalas/[id]",
+      "expectedFilePath": "apps/web/src/app/api/escalas/[id]/route.ts",
+      "evidence": "app.get(\"/api/escalas/:id\", async (c) => {"
+    },
+    {
+      "id": "POST /api/escalas",
+      "kind": "hono-route",
+      "method": "POST",
+      "sourcePath": "/api/escalas",
+      "nextRoutePath": "escalas",
+      "expectedFilePath": "apps/web/src/app/api/escalas/route.ts",
+      "evidence": "app.post(\"/api/escalas\", async (c) => {"
+    },
+    {
+      "id": "PUT /api/escalas/:id",
+      "kind": "hono-route",
+      "method": "PUT",
+      "sourcePath": "/api/escalas/:id",
+      "nextRoutePath": "escalas/[id]",
+      "expectedFilePath": "apps/web/src/app/api/escalas/[id]/route.ts",
+      "evidence": "app.put(\"/api/escalas/:id\", async (c) => {"
+    },
+    {
+      "id": "DELETE /api/escalas/:id",
+      "kind": "hono-route",
+      "method": "DELETE",
+      "sourcePath": "/api/escalas/:id",
+      "nextRoutePath": "escalas/[id]",
+      "expectedFilePath": "apps/web/src/app/api/escalas/[id]/route.ts",
+      "evidence": "app.delete(\"/api/escalas/:id\", async (c) => {"
+    },
+    {
+      "id": "POST /api/checkin-photo",
+      "kind": "hono-route",
+      "method": "POST",
+      "sourcePath": "/api/checkin-photo",
+      "nextRoutePath": "checkin-photo",
+      "expectedFilePath": "apps/web/src/app/api/checkin-photo/route.ts",
+      "evidence": "app.post(\"/api/checkin-photo\", async (c) => {"
+    },
+    {
+      "id": "GET /api/checkin-photos/*",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/checkin-photos/*",
+      "nextRoutePath": "checkin-photos/[[...path]]",
+      "expectedFilePath": "apps/web/src/app/api/checkin-photos/[[...path]]/route.ts",
+      "evidence": "app.get(\"/api/checkin-photos/*\", async (c) => {"
+    },
+    {
+      "id": "GET /api/checkins",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/checkins",
+      "nextRoutePath": "checkins",
+      "expectedFilePath": "apps/web/src/app/api/checkins/route.ts",
+      "evidence": "app.get(\"/api/checkins\", async (c) => {"
+    },
+    {
+      "id": "GET /api/checkins/:id",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/checkins/:id",
+      "nextRoutePath": "checkins/[id]",
+      "expectedFilePath": "apps/web/src/app/api/checkins/[id]/route.ts",
+      "evidence": "app.get(\"/api/checkins/:id\", async (c) => {"
+    },
+    {
+      "id": "POST /api/checkins",
+      "kind": "hono-route",
+      "method": "POST",
+      "sourcePath": "/api/checkins",
+      "nextRoutePath": "checkins",
+      "expectedFilePath": "apps/web/src/app/api/checkins/route.ts",
+      "evidence": "app.post(\"/api/checkins\", async (c) => {"
+    },
+    {
+      "id": "PUT /api/checkins/:id",
+      "kind": "hono-route",
+      "method": "PUT",
+      "sourcePath": "/api/checkins/:id",
+      "nextRoutePath": "checkins/[id]",
+      "expectedFilePath": "apps/web/src/app/api/checkins/[id]/route.ts",
+      "evidence": "app.put(\"/api/checkins/:id\", async (c) => {"
+    },
+    {
+      "id": "DELETE /api/checkins/:id",
+      "kind": "hono-route",
+      "method": "DELETE",
+      "sourcePath": "/api/checkins/:id",
+      "nextRoutePath": "checkins/[id]",
+      "expectedFilePath": "apps/web/src/app/api/checkins/[id]/route.ts",
+      "evidence": "app.delete(\"/api/checkins/:id\", async (c) => {"
+    },
+    {
+      "id": "GET /api/treinamentos",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/treinamentos",
+      "nextRoutePath": "treinamentos",
+      "expectedFilePath": "apps/web/src/app/api/treinamentos/route.ts",
+      "evidence": "app.get(\"/api/treinamentos\", async (c) => {"
+    },
+    {
+      "id": "GET /api/treinamentos/:id",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/treinamentos/:id",
+      "nextRoutePath": "treinamentos/[id]",
+      "expectedFilePath": "apps/web/src/app/api/treinamentos/[id]/route.ts",
+      "evidence": "app.get(\"/api/treinamentos/:id\", async (c) => {"
+    },
+    {
+      "id": "POST /api/treinamentos",
+      "kind": "hono-route",
+      "method": "POST",
+      "sourcePath": "/api/treinamentos",
+      "nextRoutePath": "treinamentos",
+      "expectedFilePath": "apps/web/src/app/api/treinamentos/route.ts",
+      "evidence": "app.post(\"/api/treinamentos\", async (c) => {"
+    },
+    {
+      "id": "PUT /api/treinamentos/:id",
+      "kind": "hono-route",
+      "method": "PUT",
+      "sourcePath": "/api/treinamentos/:id",
+      "nextRoutePath": "treinamentos/[id]",
+      "expectedFilePath": "apps/web/src/app/api/treinamentos/[id]/route.ts",
+      "evidence": "app.put(\"/api/treinamentos/:id\", async (c) => {"
+    },
+    {
+      "id": "DELETE /api/treinamentos/:id",
+      "kind": "hono-route",
+      "method": "DELETE",
+      "sourcePath": "/api/treinamentos/:id",
+      "nextRoutePath": "treinamentos/[id]",
+      "expectedFilePath": "apps/web/src/app/api/treinamentos/[id]/route.ts",
+      "evidence": "app.delete(\"/api/treinamentos/:id\", async (c) => {"
+    },
+    {
+      "id": "GET /api/treinamentos/:id/participantes",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/treinamentos/:id/participantes",
+      "nextRoutePath": "treinamentos/[id]/participantes",
+      "expectedFilePath": "apps/web/src/app/api/treinamentos/[id]/participantes/route.ts",
+      "evidence": "app.get(\"/api/treinamentos/:id/participantes\", async (c) => {"
+    },
+    {
+      "id": "POST /api/treinamentos/:id/participantes",
+      "kind": "hono-route",
+      "method": "POST",
+      "sourcePath": "/api/treinamentos/:id/participantes",
+      "nextRoutePath": "treinamentos/[id]/participantes",
+      "expectedFilePath": "apps/web/src/app/api/treinamentos/[id]/participantes/route.ts",
+      "evidence": "app.post(\"/api/treinamentos/:id/participantes\", async (c) => {"
+    },
+    {
+      "id": "PUT /api/treinamentos-participantes/:id",
+      "kind": "hono-route",
+      "method": "PUT",
+      "sourcePath": "/api/treinamentos-participantes/:id",
+      "nextRoutePath": "treinamentos-participantes/[id]",
+      "expectedFilePath": "apps/web/src/app/api/treinamentos-participantes/[id]/route.ts",
+      "evidence": "app.put(\"/api/treinamentos-participantes/:id\", async (c) => {"
+    },
+    {
+      "id": "DELETE /api/treinamentos-participantes/:id",
+      "kind": "hono-route",
+      "method": "DELETE",
+      "sourcePath": "/api/treinamentos-participantes/:id",
+      "nextRoutePath": "treinamentos-participantes/[id]",
+      "expectedFilePath": "apps/web/src/app/api/treinamentos-participantes/[id]/route.ts",
+      "evidence": "app.delete(\"/api/treinamentos-participantes/:id\", async (c) => {"
+    },
+    {
+      "id": "GET /api/reunioes",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/reunioes",
+      "nextRoutePath": "reunioes",
+      "expectedFilePath": "apps/web/src/app/api/reunioes/route.ts",
+      "evidence": "app.get(\"/api/reunioes\", async (c) => {"
+    },
+    {
+      "id": "GET /api/reunioes/:id",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/reunioes/:id",
+      "nextRoutePath": "reunioes/[id]",
+      "expectedFilePath": "apps/web/src/app/api/reunioes/[id]/route.ts",
+      "evidence": "app.get(\"/api/reunioes/:id\", async (c) => {"
+    },
+    {
+      "id": "POST /api/reunioes",
+      "kind": "hono-route",
+      "method": "POST",
+      "sourcePath": "/api/reunioes",
+      "nextRoutePath": "reunioes",
+      "expectedFilePath": "apps/web/src/app/api/reunioes/route.ts",
+      "evidence": "app.post(\"/api/reunioes\", async (c) => {"
+    },
+    {
+      "id": "PUT /api/reunioes/:id",
+      "kind": "hono-route",
+      "method": "PUT",
+      "sourcePath": "/api/reunioes/:id",
+      "nextRoutePath": "reunioes/[id]",
+      "expectedFilePath": "apps/web/src/app/api/reunioes/[id]/route.ts",
+      "evidence": "app.put(\"/api/reunioes/:id\", async (c) => {"
+    },
+    {
+      "id": "DELETE /api/reunioes/:id",
+      "kind": "hono-route",
+      "method": "DELETE",
+      "sourcePath": "/api/reunioes/:id",
+      "nextRoutePath": "reunioes/[id]",
+      "expectedFilePath": "apps/web/src/app/api/reunioes/[id]/route.ts",
+      "evidence": "app.delete(\"/api/reunioes/:id\", async (c) => {"
+    },
+    {
+      "id": "GET /api/reunioes/:id/participantes",
+      "kind": "hono-route",
+      "method": "GET",
+      "sourcePath": "/api/reunioes/:id/participantes",
+      "nextRoutePath": "reunioes/[id]/participantes",
+      "expectedFilePath": "apps/web/src/app/api/reunioes/[id]/participantes/route.ts",
+      "evidence": "app.get(\"/api/reunioes/:id/participantes\", async (c) => {"
+    },
+    {
+      "id": "POST /api/reunioes/:id/participantes",
+      "kind": "hono-route",
+      "method": "POST",
+      "sourcePath": "/api/reunioes/:id/participantes",
+      "nextRoutePath": "reunioes/[id]/participantes",
+      "expectedFilePath": "apps/web/src/app/api/reunioes/[id]/participantes/route.ts",
+      "evidence": "app.post(\"/api/reunioes/:id/participantes\", async (c) => {"
+    },
+    {
+      "id": "PUT /api/reunioes-participantes/:id",
+      "kind": "hono-route",
+      "method": "PUT",
+      "sourcePath": "/api/reunioes-participantes/:id",
+      "nextRoutePath": "reunioes-participantes/[id]",
+      "expectedFilePath": "apps/web/src/app/api/reunioes-participantes/[id]/route.ts",
+      "evidence": "app.put(\"/api/reunioes-participantes/:id\", async (c) => {"
+    },
+    {
+      "id": "DELETE /api/reunioes-participantes/:id",
+      "kind": "hono-route",
+      "method": "DELETE",
+      "sourcePath": "/api/reunioes-participantes/:id",
+      "nextRoutePath": "reunioes-participantes/[id]",
+      "expectedFilePath": "apps/web/src/app/api/reunioes-participantes/[id]/route.ts",
+      "evidence": "app.delete(\"/api/reunioes-participantes/:id\", async (c) => {"
+    }
+  ]
+}
