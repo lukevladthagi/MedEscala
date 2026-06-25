@@ -118,8 +118,8 @@ function SignInForm() {
             <label className="block text-[13px] font-medium text-[#31445c]">
               <span className="flex items-center justify-between">
                 Senha
-                <a href="/account/signup" className="text-[12px] font-semibold text-[#002d6b] hover:underline">
-                  Criar acesso
+                <a href="/account/forgot-password" className="text-[12px] font-semibold text-[#002d6b] hover:underline">
+                  Esqueci a senha
                 </a>
               </span>
               <div className="mt-[7px] flex h-[46px] items-center rounded-[6px] border border-[#cbd6e3] bg-white px-[12px] transition focus-within:border-[#002d6b] focus-within:ring-2 focus-within:ring-[#002d6b]/10">
@@ -162,6 +162,13 @@ function SignInForm() {
               </div>
             </div>
           </div>
+
+          <a
+            href={`/account/signup?callbackUrl=${encodeURIComponent(callbackUrl)}`}
+            className="mt-[18px] block text-center text-[13px] font-medium text-[#66788c] hover:text-[#002d6b] hover:underline"
+          >
+            Criar acesso interno
+          </a>
         </form>
       </section>
     </main>
