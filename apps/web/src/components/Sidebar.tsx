@@ -59,7 +59,7 @@ export default function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
 
   const handleLogout = async () => {
     await logout();
-    window.location.href = "/login";
+    window.location.href = "/account/signin";
   };
 
   return (

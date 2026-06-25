@@ -15,7 +15,7 @@ export default function AuthCallback() {
         navigate("/");
       } catch (error) {
         console.error("Erro ao fazer login:", error);
-        navigate("/login");
+        navigate("/account/signin");
       }
     };
 
