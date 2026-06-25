@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
+
 const nextConfig = {
   devIndicators: false,
   allowedDevOrigins: ['10.100.90.13'],
+  outputFileTracingRoot: path.join(__dirname, '../..'),
+  turbopack: {
+    root: path.join(__dirname, '../..'),
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
