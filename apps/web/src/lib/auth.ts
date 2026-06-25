@@ -32,7 +32,10 @@ const pool = new Pool({
 // as "Invalid origin". The request's own origin + known sandbox / published
 // URLs + the mobile iframe proxy URL are all listed here.
 const trustedOrigins = [
+  process.env.AUTH_URL,
   process.env.BETTER_AUTH_URL,
+  process.env.NEXT_PUBLIC_AUTH_URL,
+  ...(process.env.CORS_ORIGINS?.split(',') || []),
   process.env.EXPO_PUBLIC_PROXY_BASE_URL,
   process.env.NEXT_PUBLIC_CREATE_BASE_URL,
   process.env.NEXT_PUBLIC_CREATE_HOST
