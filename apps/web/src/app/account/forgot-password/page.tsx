@@ -6,10 +6,37 @@ import { ArrowLeft, Mail, ShieldCheck } from 'lucide-react';
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/auth/request-password-reset', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          redirectTo: `${window.location.origin}/account/reset-password`,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.message || 'Nao foi possivel enviar o e-mail de recuperacao');
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Nao foi possivel enviar o e-mail de recuperacao');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -23,7 +50,7 @@ export default function ForgotPasswordPage() {
 
         <h1 className="text-[26px] font-semibold text-[#071b33]">Recuperar senha</h1>
         <p className="mt-[8px] text-[14px] leading-[1.65] text-[#5c6b7a]">
-          Informe seu e-mail cadastrado. A solicitação deve ser validada pela administração do ProntoEscala.
+          Informe seu e-mail cadastrado para receber o link de redefinição de senha.
         </p>
 
         {!submitted ? (
@@ -45,15 +72,22 @@ export default function ForgotPasswordPage() {
 
             <button
               type="submit"
+              disabled={loading}
               className="mt-[18px] h-[48px] w-full rounded-[7px] bg-[#002d6b] text-[15px] font-semibold text-white shadow-sm transition hover:bg-[#012653]"
             >
-              Solicitar recuperação
+              {loading ? 'Enviando...' : 'Enviar link de recuperação'}
             </button>
+
+            {error && (
+              <div className="mt-[16px] rounded-[8px] border border-red-200 bg-red-50 px-[12px] py-[10px] text-[14px] text-red-700">
+                {error}
+              </div>
+            )}
           </form>
         ) : (
           <div className="mt-[24px] rounded-[8px] border border-[#bfd0e2] bg-[#f8fafc] p-[16px] text-[14px] leading-[1.65] text-[#40536a]">
-            Solicitação registrada para <strong className="text-[#002d6b]">{email}</strong>. Entre em contato com a
-            administração do sistema para finalizar a redefinição de senha.
+            Se <strong className="text-[#002d6b]">{email}</strong> estiver cadastrado, o link de redefinição será
+            enviado para esse e-mail em instantes.
           </div>
         )}
 

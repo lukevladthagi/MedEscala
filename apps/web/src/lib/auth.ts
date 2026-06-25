@@ -18,6 +18,7 @@ import { betterAuth } from 'better-auth';
 import { createAuthMiddleware } from 'better-auth/api';
 import { verifyPassword } from 'better-auth/crypto';
 import { bearer } from 'better-auth/plugins';
+import nodemailer from 'nodemailer';
 import ws from 'ws';
 
 neonConfig.webSocketConstructor = ws;
@@ -59,6 +60,64 @@ async function verifyCompatiblePassword({
   });
 }
 
+async function sendPasswordResetEmail({
+  to,
+  url,
+}: {
+  to: string;
+  url: string;
+}) {
+  const host = process.env.SMTP_HOST || process.env._HOST;
+  const port = Number(process.env.SMTP_PORT || 465);
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASSWORD;
+  const from = process.env.SMTP_FROM || user;
+
+  if (!host || !user || !pass || !from) {
+    throw new Error('SMTP nao configurado para recuperacao de senha');
+  }
+
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: {
+      user,
+      pass,
+    },
+  });
+
+  await transporter.sendMail({
+    from,
+    to,
+    subject: 'Recuperacao de senha - ProntoEscala',
+    text: [
+      'Ola,',
+      '',
+      'Recebemos uma solicitacao para redefinir sua senha no ProntoEscala.',
+      'Acesse o link abaixo para cadastrar uma nova senha:',
+      '',
+      url,
+      '',
+      'Se voce nao solicitou essa recuperacao, ignore esta mensagem.',
+    ].join('\n'),
+    html: `
+      <div style="font-family:Arial,sans-serif;color:#071b33;line-height:1.55">
+        <h2 style="color:#002d6b">Recuperacao de senha - ProntoEscala</h2>
+        <p>Recebemos uma solicitacao para redefinir sua senha no ProntoEscala.</p>
+        <p>
+          <a href="${url}" style="display:inline-block;background:#002d6b;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:700">
+            Redefinir senha
+          </a>
+        </p>
+        <p>Se o botao nao abrir, copie e cole este link no navegador:</p>
+        <p style="word-break:break-all;color:#40536a">${url}</p>
+        <p style="font-size:12px;color:#66788c">Se voce nao solicitou essa recuperacao, ignore esta mensagem.</p>
+      </div>
+    `,
+  });
+}
+
 export const auth = betterAuth({
   database: pool,
   trustedOrigins,
@@ -74,6 +133,13 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
+    resetPasswordTokenExpiresIn: 60 * 60,
+    sendResetPassword: async ({ user, url }) => {
+      await sendPasswordResetEmail({
+        to: user.email,
+        url,
+      });
+    },
     password: {
       verify: verifyCompatiblePassword,
     },

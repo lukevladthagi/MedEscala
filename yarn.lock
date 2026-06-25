@@ -7761,6 +7761,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/nodemailer@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "@types/nodemailer@npm:8.0.1"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/4370ac478a6811faaa64fcf769556515c72b78c66961cde22be75bb975ce8a964cfbe5e7c0988a99250f3250faa34357c73958b019b3c63dd138ea3784442032
+  languageName: node
+  linkType: hard
+
 "@types/pg@npm:8.11.6":
   version: 8.11.6
   resolution: "@types/pg@npm:8.11.6"
@@ -16039,6 +16048,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nodemailer@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "nodemailer@npm:9.0.1"
+  checksum: 10c0/4213f01aa211127c1ce33243c5e45e7f831601a933d03fa864cd827b1bd5ea2782cb4b43722bee7028cbc193733d9802dad1120fe67181448eb0b7de52218a37
+  languageName: node
+  linkType: hard
+
 "nopt@npm:^9.0.0":
   version: 9.0.0
   resolution: "nopt@npm:9.0.0"
@@ -20463,6 +20479,7 @@ __metadata:
     "@testing-library/react": "npm:^16.3.0"
     "@types/leaflet": "npm:^1.9.21"
     "@types/node": "npm:^20"
+    "@types/nodemailer": "npm:^8.0.1"
     "@types/react": "npm:^19.0.1"
     "@types/react-dom": "npm:^19.0.1"
     "@types/ws": "npm:^8.18.1"
@@ -20476,6 +20493,7 @@ __metadata:
     lucide-react: "npm:^0.510.0"
     next: "npm:^16.2.6"
     next-themes: "npm:^0.4.6"
+    nodemailer: "npm:^9.0.1"
     radix-ui: "npm:^1.4.3"
     react: "npm:^19.0.4"
     react-day-picker: "npm:^9.14.0"
