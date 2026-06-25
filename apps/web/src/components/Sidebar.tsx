@@ -2,16 +2,18 @@
 
 import { Link, useLocation } from "@/lib/router-shim";
 import {
-  LayoutDashboard,
-  Users,
+  Activity,
   Calendar,
   ClipboardCheck,
-  GraduationCap,
-  TrendingUp,
   DollarSign,
+  GraduationCap,
+  LayoutDashboard,
+  LogOut,
+  PanelLeftClose,
+  PanelLeftOpen,
   Settings,
-  Activity,
-  LogOut
+  TrendingUp,
+  Users,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-shim";
 import { Button } from "@/components/ui/button";
@@ -23,9 +25,14 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
 }
 
+interface SidebarProps {
+  collapsed?: boolean;
+  onToggle?: () => void;
+}
+
 const navItems: NavItem[] = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
-  { label: "Funcionários", href: "/funcionarios", icon: Users },
+  { label: "Funcionarios", href: "/funcionarios", icon: Users },
   { label: "Cargos", href: "/cargos", icon: Settings },
   { label: "Escalas", href: "/escalas", icon: Calendar },
   { label: "Check-ins", href: "/checkins", icon: ClipboardCheck },
@@ -33,10 +40,10 @@ const navItems: NavItem[] = [
   { label: "Indicadores", href: "/indicadores", icon: TrendingUp },
   { label: "BIQ", href: "/biq", icon: DollarSign },
   { label: "Auditoria", href: "/auditoria", icon: Activity },
-  { label: "Administração", href: "/admin", icon: Settings },
+  { label: "Administracao", href: "/admin", icon: Settings },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
   const location = useLocation();
   const { user, logout } = useAuth();
 
@@ -56,20 +63,34 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-sidebar border-r border-sidebar-border flex flex-col">
-      <div className="p-6 border-b border-sidebar-border">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-sidebar-primary rounded-lg flex items-center justify-center">
-            <Activity className="w-6 h-6 text-sidebar-primary-foreground" />
+    <aside
+      className={cn(
+        "fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-sidebar-border bg-sidebar transition-[width] duration-200",
+        collapsed ? "w-16" : "w-64",
+      )}
+    >
+      <div className={cn("border-b border-sidebar-border", collapsed ? "p-3" : "p-6")}>
+        <div className={cn("flex items-center", collapsed ? "justify-center" : "gap-3")}>
+          <div
+            className={cn(
+              "flex shrink-0 items-center justify-center rounded-md bg-white shadow-sm ring-1 ring-sidebar-border",
+              collapsed ? "h-10 w-10 p-1" : "h-14 w-full px-3",
+            )}
+          >
+            <img
+              src="/prontoescala-logo.png"
+              alt="ProntoEscala"
+              className={cn("object-contain", collapsed ? "h-8 w-8 object-left" : "h-12 w-full")}
+            />
           </div>
-          <div>
-            <h1 className="text-xl font-bold text-sidebar-foreground tracking-tight">MEDSCALE</h1>
-            <p className="text-xs text-sidebar-foreground/60">Gestão Hospitalar</p>
-          </div>
+          {!collapsed && (
+            <p className="sr-only">ProntoEscala - Gestao de escalas e plantoes</p>
+          )}
         </div>
+
       </div>
 
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+      <nav className={cn("flex-1 space-y-1 overflow-y-auto", collapsed ? "p-2" : "p-4")}>
         {navItems.map((item) => {
           const isActive = location.pathname === item.href;
           const Icon = item.icon;
@@ -78,50 +99,73 @@ export default function Sidebar() {
             <Link
               key={item.href}
               to={item.href}
+              title={collapsed ? item.label : undefined}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                "flex items-center rounded-lg py-2.5 text-sm font-medium transition-colors",
+                collapsed ? "justify-center px-0" : "gap-3 px-3",
                 isActive
                   ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
               )}
             >
-              <Icon className="w-5 h-5" />
-              {item.label}
+              <Icon className="h-5 w-5 shrink-0" />
+              {!collapsed && item.label}
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-4 border-t border-sidebar-border space-y-2">
-        <div className="flex items-center gap-3 px-3 py-2">
+      <div className={cn("space-y-2 border-t border-sidebar-border", collapsed ? "p-2" : "p-4")}>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={onToggle}
+          className={cn(
+            "w-full text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
+            collapsed ? "justify-center px-0" : "justify-start gap-2",
+          )}
+          title={collapsed ? "Abrir menu" : "Recolher menu"}
+        >
+          {collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+          {!collapsed && "Recolher menu"}
+        </Button>
+
+        <div className={cn("flex items-center py-2", collapsed ? "justify-center px-0" : "gap-3 px-3")}>
           {user?.google_user_data?.picture ? (
             <img
               src={user.google_user_data.picture}
               alt={user.google_user_data.name || "User"}
-              className="w-8 h-8 rounded-full"
+              className="h-8 w-8 rounded-full"
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-sidebar-primary/20 flex items-center justify-center">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sidebar-primary/20">
               <span className="text-xs font-semibold text-sidebar-primary">
                 {getInitials(user?.google_user_data?.name)}
               </span>
             </div>
           )}
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-sidebar-foreground truncate">
-              {user?.google_user_data?.name || "Usuário"}
-            </p>
-            <p className="text-xs text-sidebar-foreground/60 truncate">{user?.email}</p>
-          </div>
+          {!collapsed && (
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium text-sidebar-foreground">
+                {user?.google_user_data?.name || "Usuario"}
+              </p>
+              <p className="truncate text-xs text-sidebar-foreground/60">{user?.email}</p>
+            </div>
+          )}
         </div>
         <Button
           onClick={handleLogout}
           variant="ghost"
           size="sm"
-          className="w-full justify-start gap-2 text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+          className={cn(
+            "w-full text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
+            collapsed ? "justify-center px-0" : "justify-start gap-2",
+          )}
+          title="Sair"
         >
-          <LogOut className="w-4 h-4" />
-          Sair
+          <LogOut className="h-4 w-4" />
+          {!collapsed && "Sair"}
         </Button>
       </div>
     </aside>

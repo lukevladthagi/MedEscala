@@ -1,21 +1,24 @@
-# MedEscala
+# ProntoEscala
 
-Sistema web para gestão de escalas médicas, colaboradores, check-ins, cargos, treinamentos, reuniões e indicadores operacionais.
+Sistema web para gestao de escalas, jornadas, check-ins, treinamentos, reunioes e indicadores operacionais.
 
 ## Objetivo
 
-O MedEscala centraliza a organização das escalas hospitalares e o acompanhamento de presença, permitindo que a equipe responsável cadastre profissionais, configure cargos e vínculos, registre escalas, acompanhe check-ins e consulte indicadores de gestão.
+O ProntoEscala centraliza a organizacao da rotina de equipes hospitalares. A aplicacao permite cadastrar profissionais, vincular cargos, setores e jornadas de trabalho, acompanhar escalas e registrar presenca em eventos operacionais.
 
-## Principais Recursos
+## Principais recursos
 
-- Dashboard executivo com indicadores gerais.
-- Cadastro de médicos, funcionários e profissionais vinculados.
-- Cadastro de cargos e funções com regras de carga horária.
-- Gestão de escalas por setor, período e profissional.
-- Registro e acompanhamento de check-ins.
-- Módulo de treinamentos e reuniões.
-- Indicadores e BIQ para acompanhamento gerencial.
-- Área administrativa para manutenção dos cadastros.
+- Dashboard executivo com indicadores operacionais.
+- Cadastro de funcionarios, medicos, cargos, funcoes, especialidades e setores.
+- Vinculo de jornada de trabalho ao cadastro do profissional.
+- Escala manual para plantonistas e medicos.
+- Escala automatica por setor a partir da jornada cadastrada.
+- Visualizacao da escala por horario completo ou por siglas.
+- Impressao de escala mensal.
+- Check-in e check-out com comprovante de presenca.
+- Treinamentos e reunioes com lista de presenca.
+- Agenda de eventos em formato de calendario.
+- Modulos de BIQ, auditoria e administracao.
 
 ## Tecnologias
 
@@ -24,75 +27,93 @@ O MedEscala centraliza a organização das escalas hospitalares e o acompanhamen
 - TypeScript
 - Tailwind CSS
 - Better Auth
-- Neon PostgreSQL
+- PostgreSQL
 - Yarn Workspaces
 
-## Estrutura do Projeto
+## Estrutura
 
 ```text
 apps/
-  web/      Aplicação web principal
+  web/      Aplicacao web principal
   mobile/   Estrutura mobile gerada junto ao projeto
-config/     Arquivos auxiliares de execução
-publisher/  Arquivos de publicação gerados pela plataforma
+config/     Arquivos auxiliares
+publisher/  Artefatos gerados pela plataforma original
 ```
 
-## Configuração Local
+## Variaveis de ambiente
 
-Crie o arquivo `apps/web/.env.local` com as variáveis necessárias:
+Crie `apps/web/.env.local` em desenvolvimento ou configure as mesmas variaveis no servidor de producao:
 
 ```env
-DATABASE_URL=sua_string_do_postgresql
-AUTH_SECRET=um_segredo_seguro
-BETTER_AUTH_SECRET=um_segredo_seguro
-AUTH_URL=url_local_da_aplicacao
-BETTER_AUTH_URL=url_local_da_aplicacao
-NEXT_PUBLIC_AUTH_URL=url_local_da_aplicacao
-NEXT_PUBLIC_CREATE_BASE_URL=url_local_da_aplicacao
-NEXT_PUBLIC_CREATE_HOST=host_local_da_aplicacao
-NEXT_PUBLIC_PROJECT_GROUP_ID=medescala-local
+DATABASE_URL=postgresql://usuario:senha@host:porta/banco?sslmode=require
+AUTH_SECRET=gere_um_segredo_forte
+BETTER_AUTH_SECRET=gere_um_segredo_forte
+AUTH_URL=https://seu-dominio
+BETTER_AUTH_URL=https://seu-dominio
+NEXT_PUBLIC_AUTH_URL=https://seu-dominio
+NEXT_PUBLIC_CREATE_BASE_URL=https://seu-dominio
+NEXT_PUBLIC_CREATE_HOST=seu-dominio
+NEXT_PUBLIC_PROJECT_GROUP_ID=prontoescala
+CORS_ORIGINS=https://seu-dominio
 ```
 
-Não versionar arquivos `.env` ou credenciais.
+Nunca versione arquivos `.env`, senhas, tokens, strings de banco ou enderecos internos.
 
-## Instalação
+## Instalacao local
 
 ```bash
 corepack enable
 yarn install
 ```
 
-## Execução Local
+## Execucao em desenvolvimento
 
 ```bash
 yarn workspace web next dev --port 4005
 ```
 
-A aplicação ficará disponível localmente no navegador na porta configurada.
-
-## Scripts Úteis
+## Build de producao
 
 ```bash
-yarn workspace web typecheck
 yarn workspace web build
 ```
 
-## Banco de Dados
+## Execucao em producao
 
-O projeto utiliza PostgreSQL. As principais tabelas usadas pela aplicação são:
+```bash
+yarn workspace web start -p 4005
+```
+
+Em producao, recomenda-se executar a aplicacao com um gerenciador de processo como PM2 ou dentro de um container Docker, usando um proxy reverso com HTTPS.
+
+## Banco de dados
+
+O sistema utiliza PostgreSQL. As rotas da aplicacao criam ou ajustam algumas tabelas conforme necessario. Entre as tabelas principais estao:
 
 - `medicos`
 - `cargos_funcoes`
+- `jornadas_trabalho`
 - `escalas`
 - `checkins`
 - `treinamentos`
 - `treinamentos_participantes`
 - `reunioes`
 - `reunioes_participantes`
-- tabelas de autenticação do Better Auth
+- tabelas de autenticacao do Better Auth
 
-## Observações
+## Deploy recomendado
 
-- O login suporta autenticação por e-mail e senha.
-- A autenticação social pode ser habilitada configurando as credenciais do provedor desejado.
-- Antes de publicar em produção, configure variáveis de ambiente próprias para o ambiente final.
+1. Configure as variaveis de ambiente no servidor.
+2. Clone o repositorio no diretorio da aplicacao.
+3. Execute `corepack enable` e `yarn install`.
+4. Execute `yarn workspace web build`.
+5. Inicie com `yarn workspace web start -p 4005` ou PM2.
+6. Configure o proxy reverso apontando o dominio publico para a porta da aplicacao.
+
+## Observacoes de seguranca
+
+- Use HTTPS em producao.
+- Use segredos fortes para autenticacao.
+- Restrinja o acesso ao banco por usuario e permissao adequados.
+- Mantenha backups do banco de dados.
+- Evite expor portas internas diretamente para a internet.

@@ -20,7 +20,7 @@ const TabletCheckin = nextDynamic<RouteComponentProps>(
 
 export default function ClientPage() {
   return (
-    <AppShell>
+    <AppShell defaultCollapsed>
       <TabletCheckin />
     </AppShell>
   );

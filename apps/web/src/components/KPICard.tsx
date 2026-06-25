@@ -11,7 +11,7 @@ interface KPICardProps {
   icon: LucideIcon;
   trend?: "up" | "down" | "neutral";
   trendValue?: string;
-  variant?: "default" | "success" | "warning" | "danger";
+  variant?: "default" | "success" | "warning" | "danger" | "info" | "slate";
 }
 
 export default function KPICard({
@@ -27,11 +27,23 @@ export default function KPICard({
     default: "bg-primary/10 text-primary",
     success: "bg-green-500/10 text-green-600 dark:text-green-400",
     warning: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
-    danger: "bg-red-500/10 text-red-600 dark:text-red-400"
+    danger: "bg-red-500/10 text-red-600 dark:text-red-400",
+    info: "bg-sky-500/10 text-sky-600 dark:text-sky-400",
+    slate: "bg-slate-500/10 text-slate-600 dark:text-slate-300"
+  };
+
+  const accentStyles = {
+    default: "from-primary to-slate-500",
+    success: "from-emerald-500 to-teal-500",
+    warning: "from-amber-500 to-orange-500",
+    danger: "from-red-500 to-rose-500",
+    info: "from-sky-500 to-cyan-500",
+    slate: "from-slate-500 to-zinc-500"
   };
 
   return (
-    <Card className="p-6 hover:shadow-md transition-shadow">
+    <Card className="group relative overflow-hidden border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-800 dark:bg-card">
+      <div className={cn("absolute inset-x-0 top-0 h-1 bg-gradient-to-r", accentStyles[variant])} />
       <div className="flex items-start justify-between">
         <div className="space-y-1">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
@@ -55,7 +67,7 @@ export default function KPICard({
             </div>
           )}
         </div>
-        <div className={cn("p-3 rounded-xl", variantStyles[variant])}>
+        <div className={cn("rounded-xl p-3 transition-transform group-hover:scale-105", variantStyles[variant])}>
           <Icon className="w-6 h-6" />
         </div>
       </div>

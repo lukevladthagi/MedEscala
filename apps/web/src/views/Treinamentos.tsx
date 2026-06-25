@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, GraduationCap, Users as UsersIcon } from "lucide-react";
+import { Plus, GraduationCap, Users as UsersIcon, CalendarDays } from "lucide-react";
 import TreinamentosList from "@/components/TreinamentosList";
 import ReunioesList from "@/components/ReunioesList";
 import TreinamentoDialog from "@/components/TreinamentoDialog";
 import ReuniaoDialog from "@/components/ReuniaoDialog";
+import EventosCalendar from "@/components/EventosCalendar";
 
 interface Treinamento {
   id: number;
@@ -16,6 +17,9 @@ interface Treinamento {
   data_inicio: string;
   data_fim: string;
   status: string;
+  local?: string | null;
+  instrutor?: string | null;
+  categoria?: string | null;
 }
 
 interface Reuniao {
@@ -24,6 +28,9 @@ interface Reuniao {
   data_inicio: string;
   data_fim: string;
   status: string;
+  local?: string | null;
+  organizador?: string | null;
+  tipo?: string | null;
 }
 
 export default function Treinamentos() {
@@ -138,8 +145,12 @@ export default function Treinamentos() {
         </Card>
       </div>
 
-      <Tabs defaultValue="treinamentos" className="space-y-4">
+      <Tabs defaultValue="calendario" className="space-y-4">
         <TabsList>
+          <TabsTrigger value="calendario" className="gap-2">
+            <CalendarDays className="w-4 h-4" />
+            Agenda
+          </TabsTrigger>
           <TabsTrigger value="treinamentos" className="gap-2">
             <GraduationCap className="w-4 h-4" />
             Treinamentos
@@ -149,6 +160,20 @@ export default function Treinamentos() {
             Reuniões
           </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="calendario" className="space-y-4">
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setReuniaoDialogOpen(true)} className="gap-2">
+              <Plus className="w-4 h-4" />
+              Nova Reuniao
+            </Button>
+            <Button onClick={() => setTreinamentoDialogOpen(true)} className="gap-2">
+              <Plus className="w-4 h-4" />
+              Novo Treinamento
+            </Button>
+          </div>
+          <EventosCalendar treinamentos={treinamentos} reunioes={reunioes} />
+        </TabsContent>
 
         <TabsContent value="treinamentos" className="space-y-4">
           <div className="flex justify-end">

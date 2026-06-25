@@ -18,6 +18,9 @@ interface Checkin {
   longitude: number | null;
   distancia_hospital: number | null;
   metodo_checkin: string;
+  tipo_registro?: string;
+  status_biometria?: string | null;
+  origem_dispositivo?: string | null;
   is_valido: number;
   is_no_prazo: number;
   observacoes: string | null;
@@ -52,6 +55,8 @@ export default function CheckinDialog({ open, onClose, checkin }: CheckinDialogP
     longitude: "",
     distancia_hospital: "",
     metodo_checkin: "manual",
+    tipo_registro: "entrada",
+    status_biometria: "nao_aplicavel",
     is_valido: true,
     is_no_prazo: true,
     observacoes: ""
@@ -78,6 +83,8 @@ export default function CheckinDialog({ open, onClose, checkin }: CheckinDialogP
         longitude: checkin.longitude?.toString() || "",
         distancia_hospital: checkin.distancia_hospital?.toString() || "",
         metodo_checkin: checkin.metodo_checkin,
+        tipo_registro: checkin.tipo_registro || "entrada",
+        status_biometria: checkin.status_biometria || "nao_aplicavel",
         is_valido: checkin.is_valido === 1,
         is_no_prazo: checkin.is_no_prazo === 1,
         observacoes: checkin.observacoes || ""
@@ -91,6 +98,8 @@ export default function CheckinDialog({ open, onClose, checkin }: CheckinDialogP
         longitude: "",
         distancia_hospital: "",
         metodo_checkin: "manual",
+        tipo_registro: "entrada",
+        status_biometria: "nao_aplicavel",
         is_valido: true,
         is_no_prazo: true,
         observacoes: ""
@@ -126,10 +135,11 @@ export default function CheckinDialog({ open, onClose, checkin }: CheckinDialogP
       const payload = {
         ...formData,
         medico_id: parseInt(formData.medico_id),
-        escala_id: formData.escala_id ? parseInt(formData.escala_id) : null,
+        escala_id: formData.escala_id && formData.escala_id !== "_none" ? parseInt(formData.escala_id) : null,
         latitude: formData.latitude ? parseFloat(formData.latitude) : null,
         longitude: formData.longitude ? parseFloat(formData.longitude) : null,
         distancia_hospital: formData.distancia_hospital ? parseFloat(formData.distancia_hospital) : null,
+        origem_dispositivo: "lancamento_manual",
         is_valido: formData.is_valido ? 1 : 0,
         is_no_prazo: formData.is_no_prazo ? 1 : 0
       };
@@ -201,6 +211,23 @@ export default function CheckinDialog({ open, onClose, checkin }: CheckinDialogP
                       {escala.medico_nome} - {escala.setor} ({new Date(escala.data_inicio).toLocaleDateString()})
                     </SelectItem>
                   ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="tipo_registro">Tipo de Registro *</Label>
+              <Select
+                value={formData.tipo_registro}
+                onValueChange={(value) => setFormData({ ...formData, tipo_registro: value })}
+                required
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o tipo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="entrada">Entrada</SelectItem>
+                  <SelectItem value="saida">Saída</SelectItem>
                 </SelectContent>
               </Select>
             </div>

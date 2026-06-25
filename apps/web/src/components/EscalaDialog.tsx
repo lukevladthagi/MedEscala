@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 interface Escala {
   id: number;
-  medico_id: number;
+  medico_id: number | null;
   tipo: string;
   data_inicio: string;
   data_fim: string;
@@ -38,20 +38,21 @@ interface Medico {
 const setores = ["UTI", "Emergência", "Cirurgia", "Pediatria", "Cardiologia", "Ortopedia", "Neurologia", "Oncologia"];
 const tiposPlantao = ["Diurno", "Noturno", "24h", "12h"];
 
-export default function EscalaDialog({ open, onClose, escala }: EscalaDialogProps) {
-  const [formData, setFormData] = useState({
-    medico_id: "",
-    tipo: "Plantão",
-    data_inicio: "",
-    data_fim: "",
-    setor: "",
-    especialidade: "",
-    tipo_plantao: "",
-    carga_horaria: "",
-    observacoes: "",
-    status: "ativa"
-  });
+const emptyForm = {
+  medico_id: "",
+  tipo: "Plantão",
+  data_inicio: "",
+  data_fim: "",
+  setor: "",
+  especialidade: "",
+  tipo_plantao: "",
+  carga_horaria: "",
+  observacoes: "",
+  status: "ativa",
+};
 
+export default function EscalaDialog({ open, onClose, escala }: EscalaDialogProps) {
+  const [formData, setFormData] = useState(emptyForm);
   const [medicos, setMedicos] = useState<Medico[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -64,8 +65,8 @@ export default function EscalaDialog({ open, onClose, escala }: EscalaDialogProp
   useEffect(() => {
     if (escala) {
       setFormData({
-        medico_id: escala.medico_id.toString(),
-        tipo: escala.tipo,
+        medico_id: escala.medico_id?.toString() || "",
+        tipo: escala.tipo || "Plantão",
         data_inicio: escala.data_inicio.slice(0, 16),
         data_fim: escala.data_fim.slice(0, 16),
         setor: escala.setor || "",
@@ -73,21 +74,10 @@ export default function EscalaDialog({ open, onClose, escala }: EscalaDialogProp
         tipo_plantao: escala.tipo_plantao || "",
         carga_horaria: escala.carga_horaria?.toString() || "",
         observacoes: escala.observacoes || "",
-        status: escala.status
+        status: escala.status || "ativa",
       });
     } else {
-      setFormData({
-        medico_id: "",
-        tipo: "Plantão",
-        data_inicio: "",
-        data_fim: "",
-        setor: "",
-        especialidade: "",
-        tipo_plantao: "",
-        carga_horaria: "",
-        observacoes: "",
-        status: "ativa"
-      });
+      setFormData(emptyForm);
     }
   }, [escala, open]);
 
@@ -108,21 +98,21 @@ export default function EscalaDialog({ open, onClose, escala }: EscalaDialogProp
     try {
       const payload = {
         ...formData,
-        medico_id: parseInt(formData.medico_id),
-        carga_horaria: formData.carga_horaria ? parseFloat(formData.carga_horaria) : null
+        medico_id: formData.medico_id ? parseInt(formData.medico_id) : null,
+        carga_horaria: formData.carga_horaria ? parseFloat(formData.carga_horaria) : null,
       };
 
       if (escala) {
         await fetch(`/api/escalas/${escala.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
         });
       } else {
         await fetch("/api/escalas", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
         });
       }
 
@@ -138,22 +128,26 @@ export default function EscalaDialog({ open, onClose, escala }: EscalaDialogProp
     <Dialog open={open} onOpenChange={() => onClose()}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{escala ? "Editar Escala" : "Nova Escala"}</DialogTitle>
+          <DialogTitle>{escala ? "Editar Vaga de Escala" : "Nova Vaga de Escala"}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+            Para publicar um horário disponível, deixe o campo médico como vaga aberta. O médico poderá assumir depois, se o horário ainda estiver livre.
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2 md:col-span-2">
-              <Label htmlFor="medico_id">Médico *</Label>
+              <Label htmlFor="medico_id">Médico</Label>
               <Select
-                value={formData.medico_id}
-                onValueChange={(value) => setFormData({ ...formData, medico_id: value })}
-                required
+                value={formData.medico_id || "_open"}
+                onValueChange={(value) => setFormData({ ...formData, medico_id: value === "_open" ? "" : value })}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione o médico" />
+                  <SelectValue placeholder="Vaga aberta, sem médico definido" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="_open">Vaga aberta, sem médico definido</SelectItem>
                   {medicos.map((medico) => (
                     <SelectItem key={medico.id} value={medico.id.toString()}>
                       {medico.nome} - {medico.crm}
@@ -184,13 +178,14 @@ export default function EscalaDialog({ open, onClose, escala }: EscalaDialogProp
             <div className="space-y-2">
               <Label htmlFor="tipo_plantao">Tipo de Plantão</Label>
               <Select
-                value={formData.tipo_plantao}
-                onValueChange={(value) => setFormData({ ...formData, tipo_plantao: value })}
+                value={formData.tipo_plantao || "_none"}
+                onValueChange={(value) => setFormData({ ...formData, tipo_plantao: value === "_none" ? "" : value })}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="_none">Não definido</SelectItem>
                   {tiposPlantao.map((tipo) => (
                     <SelectItem key={tipo} value={tipo}>
                       {tipo}
@@ -225,13 +220,14 @@ export default function EscalaDialog({ open, onClose, escala }: EscalaDialogProp
             <div className="space-y-2">
               <Label htmlFor="setor">Setor</Label>
               <Select
-                value={formData.setor}
-                onValueChange={(value) => setFormData({ ...formData, setor: value })}
+                value={formData.setor || "_none"}
+                onValueChange={(value) => setFormData({ ...formData, setor: value === "_none" ? "" : value })}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="_none">Não definido</SelectItem>
                   {setores.map((setor) => (
                     <SelectItem key={setor} value={setor}>
                       {setor}
@@ -247,6 +243,7 @@ export default function EscalaDialog({ open, onClose, escala }: EscalaDialogProp
                 id="especialidade"
                 value={formData.especialidade}
                 onChange={(e) => setFormData({ ...formData, especialidade: e.target.value })}
+                placeholder="Ex.: Cardiologia"
               />
             </div>
 
@@ -294,7 +291,7 @@ export default function EscalaDialog({ open, onClose, escala }: EscalaDialogProp
               Cancelar
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? "Salvando..." : escala ? "Atualizar" : "Cadastrar"}
+              {loading ? "Salvando..." : escala ? "Atualizar" : "Publicar vaga"}
             </Button>
           </div>
         </form>

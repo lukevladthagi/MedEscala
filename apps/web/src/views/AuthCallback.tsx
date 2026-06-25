@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "@/lib/router-shim";
 import { useAuth } from "@/lib/auth-shim";
-import { Activity } from "lucide-react";
 
 export default function AuthCallback() {
   const { exchangeCodeForSessionToken } = useAuth();
@@ -24,13 +23,13 @@ export default function AuthCallback() {
   }, [exchangeCodeForSessionToken, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-gray-50">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#f4f7fb] via-white to-[#e8edf3]">
       <div className="text-center">
-        <div className="mx-auto w-16 h-16 bg-blue-600 rounded-xl flex items-center justify-center mb-4">
-          <Activity className="w-8 h-8 text-white animate-pulse" />
+        <div className="mx-auto mb-4 flex h-20 w-64 items-center justify-center rounded-md bg-white px-4 shadow-sm">
+          <img src="/prontoescala-logo.png" alt="ProntoEscala" className="h-full w-full object-contain" />
         </div>
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Completando login...</p>
+        <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-[#002d6b]" />
+        <p className="mt-4 text-[#5f676c]">Completando login...</p>
       </div>
     </div>
   );

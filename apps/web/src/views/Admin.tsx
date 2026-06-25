@@ -28,7 +28,7 @@ export default function Admin() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="nome_hospital">Nome do Hospital</Label>
-              <Input id="nome_hospital" defaultValue="Hospital MEDSCALE" />
+              <Input id="nome_hospital" defaultValue="Hospital ProntoEscala" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="cnpj">CNPJ</Label>

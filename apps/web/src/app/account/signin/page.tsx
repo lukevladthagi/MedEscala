@@ -48,13 +48,14 @@ function SignInForm() {
   };
 
   return (
-    <main className="flex min-h-screen w-full items-center justify-center bg-gray-50 p-[16px]">
+    <main className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-[#f4f7fb] via-white to-[#e8edf3] p-[16px]">
       <form
         onSubmit={(e) => { void onSubmit(e); }}
-        className="flex w-full max-w-[400px] flex-col gap-[16px] rounded-[12px] bg-white p-[24px] shadow"
+        className="flex w-full max-w-[420px] flex-col gap-[16px] rounded-[12px] border border-[#d7dde3] bg-white p-[24px] shadow"
       >
-        <h1 className="text-[24px] font-semibold">Entrar</h1>
-        <p className="text-[14px] text-gray-500">Use seu e-mail e senha cadastrados no sistema.</p>
+        <img src="/prontoescala-logo.png" alt="ProntoEscala" className="mx-auto h-[76px] w-full object-contain" />
+        <h1 className="text-[24px] font-semibold text-[#002d6b]">Entrar</h1>
+        <p className="text-[14px] text-[#5f676c]">Use seu e-mail e senha cadastrados no sistema.</p>
 
         <label className="flex flex-col gap-[4px] text-[14px]">
           E-mail
@@ -63,7 +64,7 @@ function SignInForm() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="rounded-[8px] border border-gray-300 p-[10px] text-[16px] outline-none focus:border-blue-500"
+            className="rounded-[8px] border border-gray-300 p-[10px] text-[16px] outline-none focus:border-[#002d6b]"
           />
         </label>
 
@@ -74,7 +75,7 @@ function SignInForm() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="rounded-[8px] border border-gray-300 p-[10px] text-[16px] outline-none focus:border-blue-500"
+            className="rounded-[8px] border border-gray-300 p-[10px] text-[16px] outline-none focus:border-[#002d6b]"
           />
         </label>
 
@@ -87,14 +88,14 @@ function SignInForm() {
         <button
           type="submit"
           disabled={loading}
-          className="rounded-[8px] bg-blue-600 p-[12px] text-[16px] font-medium text-white disabled:opacity-50"
+          className="rounded-[8px] bg-[#002d6b] p-[12px] text-[16px] font-medium text-white disabled:opacity-50"
         >
           {loading ? 'Entrando...' : 'Entrar'}
         </button>
 
         <a
           href={`/account/signup?callbackUrl=${encodeURIComponent(callbackUrl)}`}
-          className="text-center text-[14px] text-blue-600 hover:underline"
+          className="text-center text-[14px] text-[#002d6b] hover:underline"
         >
           Ainda não tem conta? Criar cadastro
         </a>

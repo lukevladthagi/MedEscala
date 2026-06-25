@@ -1,9 +1,17 @@
 import sql from "@/app/api/utils/sql";
 
+async function ensureCheckinFields() {
+  await sql`ALTER TABLE checkins ADD COLUMN IF NOT EXISTS tipo_registro TEXT DEFAULT 'entrada'`;
+  await sql`ALTER TABLE checkins ADD COLUMN IF NOT EXISTS status_biometria TEXT DEFAULT 'pendente'`;
+  await sql`ALTER TABLE checkins ADD COLUMN IF NOT EXISTS origem_dispositivo TEXT`;
+}
+
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  await ensureCheckinFields();
+
   const { id } = await params;
   const rows = await sql`
     SELECT c.*, m.nome as medico_nome, m.crm as medico_crm,
@@ -25,8 +33,11 @@ export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  await ensureCheckinFields();
+
   const { id } = await params;
   const body = await req.json();
+  const tipoRegistro = body.tipo_registro === "saida" ? "saida" : "entrada";
 
   await sql`
     UPDATE checkins SET
@@ -40,11 +51,14 @@ export async function PUT(
       is_valido = ${body.is_valido !== undefined ? body.is_valido : 1},
       is_no_prazo = ${body.is_no_prazo !== undefined ? body.is_no_prazo : 1},
       observacoes = ${body.observacoes || null},
+      tipo_registro = ${tipoRegistro},
+      status_biometria = ${body.status_biometria || "pendente"},
+      origem_dispositivo = ${body.origem_dispositivo || null},
       updated_at = CURRENT_TIMESTAMP::text
     WHERE id = ${id}
   `;
 
-  return Response.json({ id, ...body });
+  return Response.json({ id, ...body, tipo_registro: tipoRegistro });
 }
 
 export async function DELETE(

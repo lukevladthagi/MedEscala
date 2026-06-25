@@ -1,9 +1,14 @@
 import sql from "@/app/api/utils/sql";
 
+async function ensureEscalaSlotsSchema() {
+  await sql`ALTER TABLE escalas ALTER COLUMN medico_id DROP NOT NULL`;
+}
+
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  await ensureEscalaSlotsSchema();
   const { id } = await params;
   const rows = await sql`
     SELECT e.*, m.nome as medico_nome, m.crm as medico_crm
@@ -23,12 +28,14 @@ export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  await ensureEscalaSlotsSchema();
   const { id } = await params;
   const body = await req.json();
+  const medicoId = body.medico_id ? Number(body.medico_id) : null;
 
   await sql`
     UPDATE escalas SET
-      medico_id = ${body.medico_id},
+      medico_id = ${medicoId},
       tipo = ${body.tipo || "Plantão"},
       data_inicio = ${body.data_inicio},
       data_fim = ${body.data_fim},
@@ -42,13 +49,14 @@ export async function PUT(
     WHERE id = ${id}
   `;
 
-  return Response.json({ id, ...body });
+  return Response.json({ id, ...body, medico_id: medicoId });
 }
 
 export async function DELETE(
   _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  await ensureEscalaSlotsSchema();
   const { id } = await params;
   await sql`DELETE FROM escalas WHERE id = ${id}`;
   return Response.json({ success: true });

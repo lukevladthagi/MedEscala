@@ -1,6 +1,7 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
+import { useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -32,10 +33,31 @@ L.Icon.Default.mergeOptions({
 const HOSPITAL_LOCATION: [number, number] = [-23.5505, -46.6333];
 const VALID_DISTANCE = 500; // meters
 
+function FitCheckinBounds({ positions }: { positions: [number, number][] }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (positions.length === 0) return;
+
+    if (positions.length === 1) {
+      map.setView(positions[0], 16);
+      return;
+    }
+
+    map.fitBounds(positions, { padding: [40, 40], maxZoom: 16 });
+  }, [map, positions]);
+
+  return null;
+}
+
 export default function CheckinMap({ checkins }: CheckinMapProps) {
   const checkinsWithLocation = checkins.filter(
     (c) => c.latitude !== null && c.longitude !== null
   );
+  const checkinPositions = checkinsWithLocation.map(
+    (checkin) => [Number(checkin.latitude), Number(checkin.longitude)] as [number, number],
+  );
+  const initialCenter = checkinPositions[0] || HOSPITAL_LOCATION;
 
   // Create custom icons based on validation
   const createIcon = (isValid: number, isOnTime: number) => {
@@ -60,10 +82,11 @@ export default function CheckinMap({ checkins }: CheckinMapProps) {
   return (
     <div className="h-[600px] rounded-lg overflow-hidden border">
       <MapContainer
-        center={HOSPITAL_LOCATION}
+        center={initialCenter}
         zoom={13}
         style={{ height: "100%", width: "100%" }}
       >
+        <FitCheckinBounds positions={checkinPositions} />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

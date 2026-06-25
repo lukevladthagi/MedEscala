@@ -7,6 +7,10 @@ export async function PUT(
   const { id } = await params;
   const body = await req.json();
 
+  await sql`ALTER TABLE reunioes_participantes ADD COLUMN IF NOT EXISTS metodo_presenca TEXT`;
+  await sql`ALTER TABLE reunioes_participantes ADD COLUMN IF NOT EXISTS data_hora_presenca TEXT`;
+  await sql`ALTER TABLE reunioes_participantes ADD COLUMN IF NOT EXISTS updated_at TEXT`;
+
   await sql`
     UPDATE reunioes_participantes SET
       status_confirmacao = ${body.status_confirmacao},

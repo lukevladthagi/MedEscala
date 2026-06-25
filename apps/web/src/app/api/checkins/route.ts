@@ -1,6 +1,14 @@
 import sql from "@/app/api/utils/sql";
 
+async function ensureCheckinFields() {
+  await sql`ALTER TABLE checkins ADD COLUMN IF NOT EXISTS tipo_registro TEXT DEFAULT 'entrada'`;
+  await sql`ALTER TABLE checkins ADD COLUMN IF NOT EXISTS status_biometria TEXT DEFAULT 'pendente'`;
+  await sql`ALTER TABLE checkins ADD COLUMN IF NOT EXISTS origem_dispositivo TEXT`;
+}
+
 export async function GET(req: Request) {
+  await ensureCheckinFields();
+
   const { searchParams } = new URL(req.url);
   const medico_id = searchParams.get("medico_id");
   const escala_id = searchParams.get("escala_id");
@@ -47,13 +55,17 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  await ensureCheckinFields();
+
   const body = await req.json();
+  const tipoRegistro = body.tipo_registro === "saida" ? "saida" : "entrada";
 
   const rows = await sql(
     `INSERT INTO checkins (
        medico_id, escala_id, data_hora, latitude, longitude,
-       distancia_hospital, metodo_checkin, is_valido, is_no_prazo, observacoes, foto_url
-     ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+       distancia_hospital, metodo_checkin, is_valido, is_no_prazo, observacoes, foto_url,
+       tipo_registro, status_biometria, origem_dispositivo
+     ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
      RETURNING id`,
     [
       body.medico_id,
@@ -67,8 +79,11 @@ export async function POST(req: Request) {
       body.is_no_prazo !== undefined ? body.is_no_prazo : 1,
       body.observacoes || null,
       body.foto_url || null,
+      tipoRegistro,
+      body.status_biometria || "pendente",
+      body.origem_dispositivo || null,
     ],
   );
 
-  return Response.json({ id: rows[0].id, ...body }, { status: 201 });
+  return Response.json({ id: rows[0].id, ...body, tipo_registro: tipoRegistro }, { status: 201 });
 }
